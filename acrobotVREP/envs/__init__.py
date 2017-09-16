@@ -1,1 +1,1 @@
-from acrobotVREP.envs.AcrobotVrepEnv import AcrobotVrepEnv
+from acrobotVREP.envs.acrobotVrep import AcrobotVrepEnv
