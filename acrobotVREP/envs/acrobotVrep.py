@@ -1,12 +1,19 @@
 import gym
-from gym import spaces
 import numpy as np
+from gym import spaces
+import pypot
 from pypot.vrep.io import VrepIO
-from acrobotVREP.transformations import euler_matrix
+from pypot.vrep.io import remote_api
+from time import gmtime, strftime
+import time
+
+from acrobotVREP.envs.transformations import euler_matrix
 
 host = '127.0.0.1'
 port = 19997
-scene='/home/sayantan/computing/repositories/acrobotVREP/vrep_scenes/acrobot.ttt'
+scene='/home/sayantan/computing/repositories/acrobotVREP/vrep_scenes/acrobot1.ttt'
+
+
 
 class AcrobotVrepEnv(gym.Env):
 
@@ -15,14 +22,18 @@ class AcrobotVrepEnv(gym.Env):
     def __init__(self):
 
         self.max_speed = 10.0
-        self.max_torque = 0.3
-        self.dt = .01
+        self.max_torque = 0.5
+        self.dt = .2
+        self.step_counter = 0
+        self.time_counter = time.time()
 
         # Coordinates of the outer link tip in local (homogeneous) coordinates
         self.outer_tip_local = np.array([[0.0], [0.0], [-0.1], [1.0]])
 
         # The tip of outer_link should go above this height (z coordinate in the global frame)
-        self.threshold = 1.05
+        self.threshold = 0.75
+
+        pypot.vrep.close_all_connections()
 
         self.vrepio = VrepIO(vrep_host=host,
                              vrep_port=port,
@@ -75,6 +86,7 @@ class AcrobotVrepEnv(gym.Env):
 
     def _step(self, actions):
 
+        self.step_counter += 1
         # Advance simulation by 1 step
         #self.vrepio.call_remote_api('simxSynchronousTrigger')
 
@@ -142,14 +154,31 @@ class AcrobotVrepEnv(gym.Env):
         terminal = False
         if tip_height_global >= self.threshold:
             terminal = True
+            print '=================================== Reached threshold ==================================='
             reward = 0
         else:
             reward = -1
 
+        time.sleep(self.dt)
         return self.observation, reward, terminal, {}
 
     def _reset(self):
         self.vrepio.stop_simulation()
+        print 'Reset called ######################'
+        print 'Duration of episode: {}'.format(time.time() - self.time_counter)
+        self.time_counter = time.time()
+
+        print 'Number of steps in episode: {}'.format(self.step_counter)
+        self.step_counter = 0
+
+        # Try self.vrepio.call_remote_api('simxStopSimulation',remote_api.simx_opmode_blocking)
+        pypot.vrep.close_all_connections()
+        self.vrepio = VrepIO(vrep_host=host,
+                             vrep_port=port,
+                             scene=scene,
+                             start=False)
+
+        # self.vrepio.call_remote_api('simxSynchronous',True)
         self.vrepio.start_simulation()
         self._self_observe()
         return self.observation
@@ -158,13 +187,5 @@ class AcrobotVrepEnv(gym.Env):
         self.vrepio.stop_simulation()
 
 if __name__ == '__main__':
-    env = AcrobotVrepEnv()
-    for k in range(5):
-        print '==============================='
-        observation = env.reset()
-        for _ in range(20):
-            #   env.render()
-            action = env.action_space.sample()  # your agent here (this takes random actions)
-            observation, reward, done, info = env.step(action)
+    env = gym.make('acrobotVREP-v0')
 
-    print('simulation ended. leaving in 5 seconds...')
