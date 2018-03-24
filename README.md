@@ -2,7 +2,7 @@
 An gym environment for acrobot in VREP, along with a sample script for training the acrobot agent using DDPG (deep deterministic policy gradient). 
 Using a similar approach a VREP-based reinforcement learning setup can be created for more complicated control problems, or for other RL algorithms.
 
-![alt text](acrobot.png)
+![alt text](acrobot_image.png)
 
 ## Folders and scripts
 1. acrobotVREP - Python package for acrobotVREP (contains acrobotVrep.py
