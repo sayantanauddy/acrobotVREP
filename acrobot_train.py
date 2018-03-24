@@ -20,8 +20,8 @@ gym.undo_logger_setup()
 # Get the environment and extract the number of actions.
 env = gym.make(ENV_NAME)
 env._max_episode_steps = 200
-np.random.seed(123)
-env.seed(123)
+np.random.seed(1234)
+env.seed = 1234
 assert len(env.action_space.shape) == 1
 nb_actions = env.action_space.shape[0]
 

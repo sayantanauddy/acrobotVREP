@@ -17,7 +17,7 @@ Using a similar approach a VREP-based reinforcement learning setup can be create
 
 
 ## Dependencies
-1. Python 2.7 (not tested on Python 3)
+1. Python 2.7, numpy (not tested on Python 3)
 2. OpenAI Gym (https://gym.openai.com/)
 3. Pypot (https://poppy-project.github.io/pypot/) - provides an easy way of interacting with VREP
 4. Keras (https://keras.io/)
@@ -59,9 +59,9 @@ Using a similar approach a VREP-based reinforcement learning setup can be create
 
     ```bash
     cd $HOME
-    virtualenv --system-site-packages $HOME/matsuoka_virtualenv
+    virtualenv --system-site-packages $HOME/acrobot_virtualenv
     # Activate the virtual environment
-    source $HOME/matsuoka_virtualenv/bin/activate
+    source $HOME/acrobot_virtualenv/bin/activate
     ```
 
 5. Add the code location to PYTHONPATH
@@ -73,25 +73,27 @@ Using a similar approach a VREP-based reinforcement learning setup can be create
 6. Install the dependencies
 
     ```bash
-    # numpy, matplotlib should also be installed
+    # numpy should also be installed
     pip install pypot
-    pip install poppy-humanoid
-    pip install --upgrade tensorflow
+    pip install tensorflow
+    pip install tensorflow==1.5
     pip install keras
+    pip install keras-rl
     pip install gym
     pip install h5py
     ```
 
-7. Start VREP in a terminal
+7. Start VREP in a separate terminal
 
     ```bash
     cd $HOME/computing/simulators/V-REP_PRO_EDU_V3_4_0_Linux
     ./start_vrep.sh
     ```
 
-8. Run acrobot_train.py
+8. Run acrobot_train.py. Same script can be used for testing also (check comments in the script). VREP shows a prompt when run for the first time. Tick the checkbox in the prompt and close it. This needs to be done 3 times.
     
     ```bash
+    cd $HOME/computing/repositories/acrobotVREP
     python acrobot_train.py
     ```
     

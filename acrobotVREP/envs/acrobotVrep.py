@@ -12,7 +12,7 @@ from acrobotVREP.envs.transformations import euler_matrix
 
 host = '127.0.0.1'
 port = 19997
-scene='../../vrep_scenes/acrobot.ttt'
+scene= os.path.join(os.getenv("HOME"), 'computing/repositories/acrobotVREP/vrep_scenes/acrobot.ttt')
 
 
 
@@ -22,6 +22,8 @@ class AcrobotVrepEnv(gym.Env):
 
     def __init__(self):
 
+        self._seed = None
+        
         self.max_speed = 10.0
         self.max_torque = 0.5
         self.dt = .2
