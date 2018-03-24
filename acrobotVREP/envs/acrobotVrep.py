@@ -6,12 +6,13 @@ from pypot.vrep.io import VrepIO
 from pypot.vrep.io import remote_api
 from time import gmtime, strftime
 import time
+import os
 
 from acrobotVREP.envs.transformations import euler_matrix
 
 host = '127.0.0.1'
 port = 19997
-scene='/home/sayantan/computing/repositories/acrobotVREP/vrep_scenes/acrobot1.ttt'
+scene='../../vrep_scenes/acrobot.ttt'
 
 
 
