@@ -6,7 +6,9 @@ Using a similar approach a VREP-based reinforcement learning setup can be create
 
 ## Folders and scripts
 1. acrobotVREP - Python package for acrobotVREP (contains acrobotVrep.py
+
     1.1 acrobotVREP/env/acrobotVrep.py - Gym class for acrobotVREP
+    
     1.2 acrobotVREP/env/transformations.py - A matrix library by Christoph Gohlke <http://www.lfd.uci.edu/~gohlke/>
 
 2. vrep_scenes - VREP scene file
